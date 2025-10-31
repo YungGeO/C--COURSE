@@ -12,3 +12,4 @@ D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net9.0\refint\Conso
 D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net9.0\ConsoleAppPractise.pdb
 D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net9.0\ConsoleAppPractise.genruntimeconfig.cache
 D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net9.0\ref\ConsoleAppPractise.dll
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net9.0\ConsoleAppPractise.sourcelink.json
