@@ -1,24 +1,18 @@
 ﻿using System;
+using System.IO.Pipelines;
 
 public class Program
 {
-
-    public static void Main()
+    static double CalculateCircle(double r)
     {
 
-        do
-        {
-            Console.WriteLine("give me a number");
-            int number = int.Parse(Console.ReadLine());
-            if (number >= 0 && number <= 10 && number % 2 == 0)
-            {
-                Console.WriteLine("the number " + number + " is even");
-                break;
-            }
-            else
-            {
-                Console.WriteLine("invalid number add a new one ");
-            }
-        } while (true);
+        return Math.PI * r * r;
+    }
+    public static void Main()
+    {
+        Console.WriteLine("Enter the base length of the triangle:");
+        double r = Convert.ToDouble(Console.ReadLine());
+        double result = CalculateCircle(r);
+        Console.WriteLine("The area of the circle is: " + result);
     }
 }
