@@ -1,0 +1,15 @@
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\bin\Debug\net8.0\ConsoleAppPractise.exe
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\bin\Debug\net8.0\ConsoleAppPractise.deps.json
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\bin\Debug\net8.0\ConsoleAppPractise.runtimeconfig.json
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\bin\Debug\net8.0\ConsoleAppPractise.dll
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\bin\Debug\net8.0\ConsoleAppPractise.pdb
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net8.0\ConsoleAppPractise.GeneratedMSBuildEditorConfig.editorconfig
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net8.0\ConsoleAppPractise.AssemblyInfoInputs.cache
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net8.0\ConsoleAppPractise.AssemblyInfo.cs
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net8.0\ConsoleAppPractise.csproj.CoreCompileInputs.cache
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net8.0\ConsoleAppPractise.sourcelink.json
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net8.0\ConsoleAppPractise.dll
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net8.0\refint\ConsoleAppPractise.dll
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net8.0\ConsoleAppPractise.pdb
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net8.0\ConsoleAppPractise.genruntimeconfig.cache
+D:\C# COURSE\ConsoleAppPractise\ConsoleAppPractise\obj\Debug\net8.0\ref\ConsoleAppPractise.dll

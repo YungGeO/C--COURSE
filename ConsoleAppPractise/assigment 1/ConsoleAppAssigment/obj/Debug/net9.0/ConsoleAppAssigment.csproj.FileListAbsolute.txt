@@ -1,0 +1,15 @@
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\bin\Debug\net9.0\ConsoleAppAssigment.exe
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\bin\Debug\net9.0\ConsoleAppAssigment.deps.json
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\bin\Debug\net9.0\ConsoleAppAssigment.runtimeconfig.json
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\bin\Debug\net9.0\ConsoleAppAssigment.dll
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\bin\Debug\net9.0\ConsoleAppAssigment.pdb
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\obj\Debug\net9.0\ConsoleAppAssigment.GeneratedMSBuildEditorConfig.editorconfig
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\obj\Debug\net9.0\ConsoleAppAssigment.AssemblyInfoInputs.cache
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\obj\Debug\net9.0\ConsoleAppAssigment.AssemblyInfo.cs
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\obj\Debug\net9.0\ConsoleAppAssigment.csproj.CoreCompileInputs.cache
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\obj\Debug\net9.0\ConsoleAppAssigment.sourcelink.json
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\obj\Debug\net9.0\ConsoleAppAssigment.dll
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\obj\Debug\net9.0\refint\ConsoleAppAssigment.dll
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\obj\Debug\net9.0\ConsoleAppAssigment.pdb
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\obj\Debug\net9.0\ConsoleAppAssigment.genruntimeconfig.cache
+D:\C# COURSE\ConsoleAppPractise\assigment 1\ConsoleAppAssigment\obj\Debug\net9.0\ref\ConsoleAppAssigment.dll
