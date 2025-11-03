@@ -1,0 +1,15 @@
+D:\C# COURSE\Async testing\async2\bin\Debug\net8.0\async2.exe
+D:\C# COURSE\Async testing\async2\bin\Debug\net8.0\async2.deps.json
+D:\C# COURSE\Async testing\async2\bin\Debug\net8.0\async2.runtimeconfig.json
+D:\C# COURSE\Async testing\async2\bin\Debug\net8.0\async2.dll
+D:\C# COURSE\Async testing\async2\bin\Debug\net8.0\async2.pdb
+D:\C# COURSE\Async testing\async2\obj\Debug\net8.0\async2.GeneratedMSBuildEditorConfig.editorconfig
+D:\C# COURSE\Async testing\async2\obj\Debug\net8.0\async2.AssemblyInfoInputs.cache
+D:\C# COURSE\Async testing\async2\obj\Debug\net8.0\async2.AssemblyInfo.cs
+D:\C# COURSE\Async testing\async2\obj\Debug\net8.0\async2.csproj.CoreCompileInputs.cache
+D:\C# COURSE\Async testing\async2\obj\Debug\net8.0\async2.sourcelink.json
+D:\C# COURSE\Async testing\async2\obj\Debug\net8.0\async2.dll
+D:\C# COURSE\Async testing\async2\obj\Debug\net8.0\refint\async2.dll
+D:\C# COURSE\Async testing\async2\obj\Debug\net8.0\async2.pdb
+D:\C# COURSE\Async testing\async2\obj\Debug\net8.0\async2.genruntimeconfig.cache
+D:\C# COURSE\Async testing\async2\obj\Debug\net8.0\ref\async2.dll
