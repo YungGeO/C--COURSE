@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp2", "ConsoleApp2\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sum of array", "sum of array\sum of array.csproj", "{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Co pilot generation training", "Co pilot generation training\Co pilot generation training.csproj", "{FCADBB24-9301-4AE4-A69E-36CC07589B0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Release|x64.Build.0 = Release|Any CPU
 		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Release|x86.ActiveCfg = Release|Any CPU
 		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Release|x86.Build.0 = Release|Any CPU
+		{FCADBB24-9301-4AE4-A69E-36CC07589B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCADBB24-9301-4AE4-A69E-36CC07589B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCADBB24-9301-4AE4-A69E-36CC07589B0A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FCADBB24-9301-4AE4-A69E-36CC07589B0A}.Debug|x64.Build.0 = Debug|Any CPU
+		{FCADBB24-9301-4AE4-A69E-36CC07589B0A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FCADBB24-9301-4AE4-A69E-36CC07589B0A}.Debug|x86.Build.0 = Debug|Any CPU
+		{FCADBB24-9301-4AE4-A69E-36CC07589B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCADBB24-9301-4AE4-A69E-36CC07589B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCADBB24-9301-4AE4-A69E-36CC07589B0A}.Release|x64.ActiveCfg = Release|Any CPU
+		{FCADBB24-9301-4AE4-A69E-36CC07589B0A}.Release|x64.Build.0 = Release|Any CPU
+		{FCADBB24-9301-4AE4-A69E-36CC07589B0A}.Release|x86.ActiveCfg = Release|Any CPU
+		{FCADBB24-9301-4AE4-A69E-36CC07589B0A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

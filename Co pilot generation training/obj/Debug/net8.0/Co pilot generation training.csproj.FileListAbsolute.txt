@@ -1,0 +1,15 @@
+D:\C# COURSE\Co pilot generation training\bin\Debug\net8.0\Co pilot generation training.exe
+D:\C# COURSE\Co pilot generation training\bin\Debug\net8.0\Co pilot generation training.deps.json
+D:\C# COURSE\Co pilot generation training\bin\Debug\net8.0\Co pilot generation training.runtimeconfig.json
+D:\C# COURSE\Co pilot generation training\bin\Debug\net8.0\Co pilot generation training.dll
+D:\C# COURSE\Co pilot generation training\bin\Debug\net8.0\Co pilot generation training.pdb
+D:\C# COURSE\Co pilot generation training\obj\Debug\net8.0\Co pilot generation training.GeneratedMSBuildEditorConfig.editorconfig
+D:\C# COURSE\Co pilot generation training\obj\Debug\net8.0\Co pilot generation training.AssemblyInfoInputs.cache
+D:\C# COURSE\Co pilot generation training\obj\Debug\net8.0\Co pilot generation training.AssemblyInfo.cs
+D:\C# COURSE\Co pilot generation training\obj\Debug\net8.0\Co pilot generation training.csproj.CoreCompileInputs.cache
+D:\C# COURSE\Co pilot generation training\obj\Debug\net8.0\Co pilot generation training.sourcelink.json
+D:\C# COURSE\Co pilot generation training\obj\Debug\net8.0\Co pilot generation training.dll
+D:\C# COURSE\Co pilot generation training\obj\Debug\net8.0\refint\Co pilot generation training.dll
+D:\C# COURSE\Co pilot generation training\obj\Debug\net8.0\Co pilot generation training.pdb
+D:\C# COURSE\Co pilot generation training\obj\Debug\net8.0\Co pilot generation training.genruntimeconfig.cache
+D:\C# COURSE\Co pilot generation training\obj\Debug\net8.0\ref\Co pilot generation training.dll
