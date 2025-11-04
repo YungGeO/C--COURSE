@@ -1,224 +1,94 @@
-﻿﻿namespace Co_pilot_generation_training;
-
-class Program
+﻿class LibraryManager
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        // Declaring variables with empty strings
-        string bookTitle1 = "";
-        string bookTitle2 = "";
-        string bookTitle3 = "";
-        string bookTitle4 = "";
-        string bookTitle5 = "";
+        string book1 = "";
+        string book2 = "";
+        string book3 = "";
+        string book4 = "";
+        string book5 = "";
 
         while (true)
         {
-            Console.Clear(); // Clear the console for better readability
-            Console.WriteLine("=== Book Management System ===\n");
+            Console.WriteLine("Would you like to add or remove a book? (add/remove/exit)");
+            string action = Console.ReadLine();
 
-            // Display current books
-            Console.WriteLine("Current Books:");
-            bool booksExist = false;
-            if (bookTitle1 != "") { Console.WriteLine($"1. {bookTitle1}"); booksExist = true; }
-            if (bookTitle2 != "") { Console.WriteLine($"2. {bookTitle2}"); booksExist = true; }
-            if (bookTitle3 != "") { Console.WriteLine($"3. {bookTitle3}"); booksExist = true; }
-            if (bookTitle4 != "") { Console.WriteLine($"4. {bookTitle4}"); booksExist = true; }
-            if (bookTitle5 != "") { Console.WriteLine($"5. {bookTitle5}"); booksExist = true; }
-            
-            if (!booksExist)
+            if (action == "add")
             {
-                Console.WriteLine("(No books in the library)");
+                Console.WriteLine("Enter the title of the book to add:");
+                string newBook = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(book1))
+                {
+                    book1 = newBook;
+                }
+                else if (string.IsNullOrEmpty(book2))
+                {
+                    book2 = newBook;
+                }
+                else if (string.IsNullOrEmpty(book3))
+                {
+                    book3 = newBook;
+                }
+                else if (string.IsNullOrEmpty(book4))
+                {
+                    book4 = newBook;
+                }
+                else if (string.IsNullOrEmpty(book5))
+                {
+                    book5 = newBook;
+                }
+                else
+                {
+                    Console.WriteLine("The library is full. No more books can be added.");
+                }
             }
-            Console.WriteLine();
+            else if (action == "remove")
+            {
+                Console.WriteLine("Enter the title of the book to remove:");
+                string removeBook = Console.ReadLine();
 
-            // Display menu
-            Console.WriteLine("\nWhat would you like to do?");
-            Console.WriteLine("1. Add a book");
-            Console.WriteLine("2. Remove a book");
-            Console.WriteLine("3. Display books");
-            Console.WriteLine("4. Exit");
-            Console.Write("Enter your choice (1-4): ");
-            
-            string? choice = Console.ReadLine();
-
-            if (choice == null)
+                if (removeBook == book1)
+                {
+                    book1 = "";
+                }
+                else if (removeBook == book2)
+                {
+                    book2 = "";
+                }
+                else if (removeBook == book3)
+                {
+                    book3 = "";
+                }
+                else if (removeBook == book4)
+                {
+                    book4 = "";
+                }
+                else if (removeBook == book5)
+                {
+                    book5 = "";
+                }
+                else
+                {
+                    Console.WriteLine("Book not found.");
+                }
+            }
+            else if (action == "exit")
+            {
                 break;
-
-            // Validate user input
-            if (choice == null || !new[] { "1", "2", "3", "4" }.Contains(choice))
+            }
+            else
             {
-                Console.WriteLine("\nERROR: Invalid choice!");
-                Console.WriteLine("You must enter a number between 1 and 4:");
-                Console.WriteLine("1 - Add a book");
-                Console.WriteLine("2 - Remove a book");
-                Console.WriteLine("3 - Display books");
-                Console.WriteLine("4 - Exit");
-                Console.WriteLine("\nPress any key to try again...");
-                Console.ReadKey();
-                continue;
+                Console.WriteLine("Invalid action. Please type 'add', 'remove', or 'exit'.");
             }
 
-            switch (choice)
-            {
-                case "1":
-                    // Check if there are any empty slots available
-                    if (bookTitle1 != "" && bookTitle2 != "" && bookTitle3 != "" && bookTitle4 != "" && bookTitle5 != "")
-                    {
-                        Console.WriteLine("\nERROR: Cannot add more books!");
-                        Console.WriteLine("All slots are full. Please remove a book first.");
-                        Console.WriteLine("\nPress any key to continue...");
-                        Console.ReadKey();
-                        continue;
-                    }
-
-                    // Add a book
-                    Console.WriteLine("\nEnter a book title:");
-                    string? input = Console.ReadLine();
-
-                    if (input == null || input.Trim() == "")
-                    {
-                        Console.WriteLine("\nERROR: Book title cannot be empty!");
-                        Console.WriteLine("Press any key to try again...");
-                        Console.ReadKey();
-                        continue;
-                    }
-
-                    // Find first empty variable using switch
-                    switch (true)
-                    {
-                        case bool _ when bookTitle1 == "":
-                            bookTitle1 = input;
-                            break;
-                        case bool _ when bookTitle2 == "":
-                            bookTitle2 = input;
-                            break;
-                        case bool _ when bookTitle3 == "":
-                            bookTitle3 = input;
-                            break;
-                        case bool _ when bookTitle4 == "":
-                            bookTitle4 = input;
-                            break;
-                        case bool _ when bookTitle5 == "":
-                            bookTitle5 = input;
-                            break;
-                        default:
-                            Console.WriteLine("All variables are full! Cannot add more books.");
-                            continue;
-                    }
-                    Console.WriteLine("Book added successfully!");
-                    break;
-
-                case "2":
-                    // Check if there are any books to remove
-                    if (bookTitle1 == "" && bookTitle2 == "" && bookTitle3 == "" && bookTitle4 == "" && bookTitle5 == "")
-                    {
-                        Console.WriteLine("\nERROR: Cannot remove books!");
-                        Console.WriteLine("The library is empty. Please add some books first.");
-                        Console.WriteLine("\nPress any key to continue...");
-                        Console.ReadKey();
-                        continue;
-                    }
-
-                    // Remove a book
-                    Console.WriteLine("\nEnter the title of the book to remove:");
-                    string? titleToRemove = Console.ReadLine();
-
-                    if (titleToRemove == null || titleToRemove.Trim() == "")
-                    {
-                        Console.WriteLine("\nERROR: Book title cannot be empty!");
-                        Console.WriteLine("Press any key to try again...");
-                        Console.ReadKey();
-                        continue;
-                    }
-
-                    bool bookFound = false;
-
-                    // Check and remove book using switch
-                    switch (titleToRemove)
-                    {
-                        case var title when title == bookTitle1:
-                            bookTitle1 = "";
-                            bookFound = true;
-                            break;
-                        case var title when title == bookTitle2:
-                            bookTitle2 = "";
-                            bookFound = true;
-                            break;
-                        case var title when title == bookTitle3:
-                            bookTitle3 = "";
-                            bookFound = true;
-                            break;
-                        case var title when title == bookTitle4:
-                            bookTitle4 = "";
-                            bookFound = true;
-                            break;
-                        case var title when title == bookTitle5:
-                            bookTitle5 = "";
-                            bookFound = true;
-                            break;
-                    }
-
-                    Console.WriteLine(bookFound ? "Book removed successfully!" : "Book not found!");
-                    break;
-
-                case "3":
-                    // Display non-empty books
-                    Console.WriteLine("\nCurrent Books:");
-                    bool hasBooks = false;
-                    
-                    // Check each book and display if not empty
-                    if (bookTitle1 != "")
-                    {
-                        Console.WriteLine($"- {bookTitle1}");
-                        hasBooks = true;
-                    }
-                    if (bookTitle2 != "")
-                    {
-                        Console.WriteLine($"- {bookTitle2}");
-                        hasBooks = true;
-                    }
-                    if (bookTitle3 != "")
-                    {
-                        Console.WriteLine($"- {bookTitle3}");
-                        hasBooks = true;
-                    }
-                    if (bookTitle4 != "")
-                    {
-                        Console.WriteLine($"- {bookTitle4}");
-                        hasBooks = true;
-                    }
-                    if (bookTitle5 != "")
-                    {
-                        Console.WriteLine($"- {bookTitle5}");
-                        hasBooks = true;
-                    }
-                    
-                    if (!hasBooks)
-                    {
-                        Console.WriteLine("No books in the library!");
-                    }
-                    break;
-
-                case "4":
-                    Console.WriteLine("\nThank you for using the Book Management System!");
-                    Console.WriteLine("Press any key to exit...");
-                    Console.ReadKey();
-                    return;
-
-                default:
-                    Console.WriteLine("\nInvalid choice. Please enter 1, 2, 3, or 4.");
-                    Console.WriteLine("Press any key to continue...");
-                    Console.ReadKey();
-                    break;
-            }
+            // Display the list of books
+            Console.WriteLine("Available books:");
+            Console.WriteLine(book1);
+            Console.WriteLine(book2);
+            Console.WriteLine(book3);
+            Console.WriteLine(book4);
+            Console.WriteLine(book5);
         }
-
-        // Final display of all books
-        Console.WriteLine("\nFinal Book List:");
-        Console.WriteLine($"1. {(bookTitle1 == "" ? "Empty" : bookTitle1)}");
-        Console.WriteLine($"2. {(bookTitle2 == "" ? "Empty" : bookTitle2)}");
-        Console.WriteLine($"3. {(bookTitle3 == "" ? "Empty" : bookTitle3)}");
-        Console.WriteLine($"4. {(bookTitle4 == "" ? "Empty" : bookTitle4)}");
-        Console.WriteLine($"5. {(bookTitle5 == "" ? "Empty" : bookTitle5)}");
     }
 }
