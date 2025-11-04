@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp2", "ConsoleApp2\ConsoleApp2.csproj", "{9B5E2B52-80DF-429E-95ED-DCFB23D7737A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sum of array", "sum of array\sum of array.csproj", "{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{9B5E2B52-80DF-429E-95ED-DCFB23D7737A}.Release|x64.Build.0 = Release|Any CPU
 		{9B5E2B52-80DF-429E-95ED-DCFB23D7737A}.Release|x86.ActiveCfg = Release|Any CPU
 		{9B5E2B52-80DF-429E-95ED-DCFB23D7737A}.Release|x86.Build.0 = Release|Any CPU
+		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Debug|x64.Build.0 = Debug|Any CPU
+		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Debug|x86.Build.0 = Debug|Any CPU
+		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Release|x64.ActiveCfg = Release|Any CPU
+		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Release|x64.Build.0 = Release|Any CPU
+		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Release|x86.ActiveCfg = Release|Any CPU
+		{9B6BFE19-5B08-4B2A-811C-A00AB07D5122}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
