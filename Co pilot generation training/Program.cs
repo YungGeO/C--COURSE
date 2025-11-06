@@ -89,8 +89,9 @@ namespace Co_pilot_generation_training
                 Console.WriteLine(" 3) Display");
                 Console.WriteLine(" 4) Search");
                 Console.WriteLine(" 5) Borrow");
-                Console.WriteLine(" 6) Exit");
-                Console.Write("Enter choice (1-6 or word): ");
+                Console.WriteLine(" 6) Check In");
+                Console.WriteLine(" 7) Exit");
+                Console.Write("Enter choice (1-7 or word): ");
 
                 var choice = Console.ReadLine()?.Trim();
                 if (string.IsNullOrEmpty(choice)) { Console.WriteLine("Invalid input."); Pause(); continue; }
@@ -117,7 +118,11 @@ namespace Co_pilot_generation_training
                 {
                     BorrowBook(library, borrowed);
                 }
-                else if (cmd == "6" || cmd == "exit")
+                else if (cmd == "6" || cmd == "check" || cmd == "checkin" || cmd == "check in")
+                {
+                    CheckInBook(library, borrowed);
+                }
+                else if (cmd == "7" || cmd == "exit")
                 {
                     Console.WriteLine("Goodbye.");
                     return;
@@ -185,6 +190,52 @@ namespace Co_pilot_generation_training
         static void DisplayBooks(Library library)
         {
             PrintBooks(library);
+            Pause();
+        }
+
+        static void CheckInBook(Library library, List<string> borrowed)
+        {
+            if (borrowed.Count == 0)
+            {
+                Console.WriteLine("\nYou haven't borrowed any books yet.");
+                Pause();
+                return;
+            }
+
+            Console.WriteLine("\nYour borrowed books:");
+            for (int i = 0; i < borrowed.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {borrowed[i]}");
+            }
+
+            Console.Write("\nEnter the number of the book you want to check in: ");
+            var input = Console.ReadLine()?.Trim();
+
+            if (string.IsNullOrEmpty(input))
+            {
+                Console.WriteLine("Invalid input.");
+                Pause();
+                return;
+            }
+
+            if (int.TryParse(input, out var bookNum) && bookNum >= 1 && bookNum <= borrowed.Count)
+            {
+                var bookTitle = borrowed[bookNum - 1];
+                if (library.Add(bookTitle))
+                {
+                    borrowed.RemoveAt(bookNum - 1);
+                    Console.WriteLine($"\nSuccessfully checked in: {bookTitle}");
+                    Console.WriteLine("The book is now available for borrowing again.");
+                }
+                else
+                {
+                    Console.WriteLine("\nCouldn't check in the book - the library is full.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nInvalid book number.");
+            }
             Pause();
         }
 
