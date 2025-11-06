@@ -73,6 +73,7 @@ namespace Co_pilot_generation_training
         static void Main(string[] args)
         {
             var library = new Library(5);
+            var borrowed = new List<string>(); // track user's borrowed books (max 3)
 
             while (true)
             {
@@ -87,8 +88,9 @@ namespace Co_pilot_generation_training
                 Console.WriteLine(" 2) Remove");
                 Console.WriteLine(" 3) Display");
                 Console.WriteLine(" 4) Search");
-                Console.WriteLine(" 5) Exit");
-                Console.Write("Enter choice (1-5 or word): ");
+                Console.WriteLine(" 5) Borrow");
+                Console.WriteLine(" 6) Exit");
+                Console.Write("Enter choice (1-6 or word): ");
 
                 var choice = Console.ReadLine()?.Trim();
                 if (string.IsNullOrEmpty(choice)) { Console.WriteLine("Invalid input."); Pause(); continue; }
@@ -152,7 +154,11 @@ namespace Co_pilot_generation_training
                     }
                     Pause();
                 }
-                else if (cmd == "5" || cmd == "exit")
+                else if (cmd == "5" || cmd == "borrow")
+                {
+                    BorrowBook(library, borrowed);
+                }
+                else if (cmd == "6" || cmd == "exit")
                 {
                     Console.WriteLine("Goodbye.");
                     return;
@@ -162,6 +168,67 @@ namespace Co_pilot_generation_training
                     Console.WriteLine("Unknown command."); Pause();
                 }
             }
+        }
+
+        static void BorrowBook(Library library, List<string> borrowed)
+        {
+            Console.WriteLine("\nYour borrowed books:");
+            if (borrowed.Count == 0)
+            {
+                Console.WriteLine("(No books borrowed yet)");
+            }
+            else
+            {
+                for (int i = 0; i < borrowed.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {borrowed[i]}");
+                }
+            }
+            Console.WriteLine($"\nYou can borrow {3 - borrowed.Count} more book(s).\n");
+
+            if (borrowed.Count >= 3)
+            {
+                Console.WriteLine("You have reached the borrow limit (3 books). Return a book before borrowing more.");
+                Pause();
+                return;
+            }
+
+            if (library.IsEmpty)
+            {
+                Console.WriteLine("There are no books to borrow.");
+                Pause();
+                return;
+            }
+
+            Console.WriteLine("Available books to borrow:");
+            PrintBooks(library);
+
+            Console.Write("Enter title or number to borrow: ");
+            var arg = Console.ReadLine()?.Trim();
+            if (string.IsNullOrEmpty(arg)) { Console.WriteLine("Invalid input."); Pause(); return; }
+
+            if (int.TryParse(arg, out var n))
+            {
+                var b = library.RemoveAt(n);
+                if (b == null) Console.WriteLine("No book at that number.");
+                else { borrowed.Add(b); Console.WriteLine($"You borrowed: {b}"); }
+                Console.WriteLine($"Borrowed count: {borrowed.Count}/3");
+                Pause();
+                return;
+            }
+
+            var found = library.Search(arg);
+            if (found.Count > 0)
+            {
+                var idx = found[0].Index;
+                var b2 = library.RemoveAt(idx);
+                if (b2 != null) { borrowed.Add(b2); Console.WriteLine($"You borrowed: {b2}"); }
+                else Console.WriteLine("Could not borrow the book.");
+            }
+            else Console.WriteLine("Book title is not in the collection.");
+
+            Console.WriteLine($"Borrowed count: {borrowed.Count}/3");
+            Pause();
         }
 
         static void PrintBooks(Library lib)
