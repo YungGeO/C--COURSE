@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Co_pilot_generation_training
 {
@@ -7,40 +8,83 @@ namespace Co_pilot_generation_training
     {
         private sealed class Library
         {
-            private readonly string?[] slots;
-            public Library(int capacity) => slots = new string?[capacity];
-            public bool IsEmpty => Array.TrueForAll(slots, s => string.IsNullOrEmpty(s));
-            public bool IsFull => Array.TrueForAll(slots, s => !string.IsNullOrEmpty(s));
+            private class BookSlot
+            {
+                public string? Title { get; set; }
+                public bool IsCheckedOut { get; set; }
+            }
 
-            public IReadOnlyList<(int Index, string Title)> ListBooks()
+            private readonly BookSlot[] slots;
+            public Library(int capacity)
+            {
+                slots = new BookSlot[capacity];
+                for (int i = 0; i < capacity; i++)
+                    slots[i] = new BookSlot();
+            }
+
+            public bool IsEmpty => Array.TrueForAll(slots, s => string.IsNullOrEmpty(s.Title));
+            public bool IsFull => Array.TrueForAll(slots, s => !string.IsNullOrEmpty(s.Title));
+
+            public IReadOnlyList<(int Index, string Title, bool IsCheckedOut)> ListBooks()
+            {
+                var list = new List<(int, string, bool)>();
+                for (int i = 0; i < slots.Length; i++)
+                    if (!string.IsNullOrEmpty(slots[i].Title))
+                        list.Add((i + 1, slots[i].Title!, slots[i].IsCheckedOut));
+                return list;
+            }
+
+            public IReadOnlyList<(int Index, string Title)> ListAvailableBooks()
             {
                 var list = new List<(int, string)>();
                 for (int i = 0; i < slots.Length; i++)
-                    if (!string.IsNullOrEmpty(slots[i]))
-                        list.Add((i + 1, slots[i]!));
+                    if (!string.IsNullOrEmpty(slots[i].Title) && !slots[i].IsCheckedOut)
+                        list.Add((i + 1, slots[i].Title!));
+                return list;
+            }
+
+            public IReadOnlyList<(int Index, string Title)> ListCheckedOutBooks()
+            {
+                var list = new List<(int, string)>();
+                for (int i = 0; i < slots.Length; i++)
+                    if (!string.IsNullOrEmpty(slots[i].Title) && slots[i].IsCheckedOut)
+                        list.Add((i + 1, slots[i].Title!));
                 return list;
             }
 
             public bool Add(string title)
             {
+                // Check if the book already exists (case-insensitive)
                 for (int i = 0; i < slots.Length; i++)
                 {
-                    if (string.IsNullOrEmpty(slots[i]))
+                    if (!string.IsNullOrEmpty(slots[i].Title) &&
+                        string.Equals(slots[i].Title, title, StringComparison.OrdinalIgnoreCase))
                     {
-                        slots[i] = title;
+                        return false; // Duplicate found
+                    }
+                }
+
+                // Find first empty slot and add the book
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    if (string.IsNullOrEmpty(slots[i].Title))
+                    {
+                        slots[i].Title = title;
+                        slots[i].IsCheckedOut = false;
                         return true;
                     }
                 }
-                return false;
+                return false; // Library is full
             }
 
             public string? RemoveAt(int indexOneBased)
             {
                 int i = indexOneBased - 1;
                 if (i < 0 || i >= slots.Length) return null;
-                var old = slots[i];
+                var old = slots[i].Title;
                 if (string.IsNullOrEmpty(old)) return null;
-                slots[i] = null;
+                slots[i].Title = null;
+                slots[i].IsCheckedOut = false;
                 return old;
             }
 
@@ -49,31 +93,56 @@ namespace Co_pilot_generation_training
                 int removed = 0;
                 for (int i = 0; i < slots.Length; i++)
                 {
-                    if (!string.IsNullOrEmpty(slots[i]) && string.Equals(slots[i], title, StringComparison.OrdinalIgnoreCase))
+                    if (!string.IsNullOrEmpty(slots[i].Title) && string.Equals(slots[i].Title, title, StringComparison.OrdinalIgnoreCase))
                     {
-                        slots[i] = null;
+                        slots[i].Title = null;
+                        slots[i].IsCheckedOut = false;
                         removed++;
                     }
                 }
                 return removed;
             }
 
-            public IReadOnlyList<(int Index, string Title)> Search(string query)
+            public IReadOnlyList<(int Index, string Title, bool IsCheckedOut)> Search(string query)
             {
-                var res = new List<(int, string)>();
+                var res = new List<(int, string, bool)>();
                 for (int i = 0; i < slots.Length; i++)
                 {
-                    if (!string.IsNullOrEmpty(slots[i]) && string.Equals(slots[i], query, StringComparison.OrdinalIgnoreCase))
-                        res.Add((i + 1, slots[i]!));
+                    if (!string.IsNullOrEmpty(slots[i].Title) && string.Equals(slots[i].Title, query, StringComparison.OrdinalIgnoreCase))
+                        res.Add((i + 1, slots[i].Title!, slots[i].IsCheckedOut));
                 }
                 return res;
+            }
+
+            public bool CheckOut(int indexOneBased)
+            {
+                int i = indexOneBased - 1;
+                if (i < 0 || i >= slots.Length || string.IsNullOrEmpty(slots[i].Title)) return false;
+                if (slots[i].IsCheckedOut) return false; // Already checked out
+                slots[i].IsCheckedOut = true;
+                return true;
+            }
+
+            public bool CheckIn(int indexOneBased)
+            {
+                int i = indexOneBased - 1;
+                if (i < 0 || i >= slots.Length || string.IsNullOrEmpty(slots[i].Title)) return false;
+                if (!slots[i].IsCheckedOut) return false; // Not checked out
+                slots[i].IsCheckedOut = false;
+                return true;
+            }
+
+            public bool IsBookCheckedOut(int indexOneBased)
+            {
+                int i = indexOneBased - 1;
+                if (i < 0 || i >= slots.Length || string.IsNullOrEmpty(slots[i].Title)) return false;
+                return slots[i].IsCheckedOut;
             }
         }
 
         static void Main(string[] args)
         {
             var library = new Library(5);
-            var borrowed = new List<string>(); // track user's borrowed books (max 3)
 
             while (true)
             {
@@ -116,11 +185,11 @@ namespace Co_pilot_generation_training
                 }
                 else if (cmd == "5" || cmd == "borrow")
                 {
-                    BorrowBook(library, borrowed);
+                    BorrowBook(library);
                 }
                 else if (cmd == "6" || cmd == "check" || cmd == "checkin" || cmd == "check in")
                 {
-                    CheckInBook(library, borrowed);
+                    CheckInBook(library);
                 }
                 else if (cmd == "7" || cmd == "exit")
                 {
@@ -150,8 +219,14 @@ namespace Co_pilot_generation_training
                 Pause();
                 return;
             }
-            library.Add(title);
-            Console.WriteLine("Added.");
+            if (library.Add(title))
+            {
+                Console.WriteLine("Added.");
+            }
+            else
+            {
+                Console.WriteLine("This book already exists in the library. Duplicates are not allowed.");
+            }
             Pause();
         }
 
@@ -193,9 +268,11 @@ namespace Co_pilot_generation_training
             Pause();
         }
 
-        static void CheckInBook(Library library, List<string> borrowed)
+        static void CheckInBook(Library library)
         {
-            if (borrowed.Count == 0)
+            var checkedOutBooks = library.ListCheckedOutBooks();
+
+            if (checkedOutBooks.Count == 0)
             {
                 Console.WriteLine("\nYou haven't borrowed any books yet.");
                 Pause();
@@ -203,9 +280,9 @@ namespace Co_pilot_generation_training
             }
 
             Console.WriteLine("\nYour borrowed books:");
-            for (int i = 0; i < borrowed.Count; i++)
+            foreach (var (idx, title) in checkedOutBooks)
             {
-                Console.WriteLine($"{i + 1}. {borrowed[i]}");
+                Console.WriteLine($"{idx}. {title}");
             }
 
             Console.Write("\nEnter the number of the book you want to check in: ");
@@ -218,18 +295,21 @@ namespace Co_pilot_generation_training
                 return;
             }
 
-            if (int.TryParse(input, out var bookNum) && bookNum >= 1 && bookNum <= borrowed.Count)
+            if (int.TryParse(input, out var bookNum))
             {
-                var bookTitle = borrowed[bookNum - 1];
-                if (library.Add(bookTitle))
+                if (library.CheckIn(bookNum))
                 {
-                    borrowed.RemoveAt(bookNum - 1);
-                    Console.WriteLine($"\nSuccessfully checked in: {bookTitle}");
-                    Console.WriteLine("The book is now available for borrowing again.");
+                    var bookList = library.ListBooks();
+                    var book = bookList.FirstOrDefault(b => b.Index == bookNum);
+                    if (book.Title != null)
+                    {
+                        Console.WriteLine($"\nSuccessfully checked in: {book.Title}");
+                        Console.WriteLine("The book is now available for borrowing again.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("\nCouldn't check in the book - the library is full.");
+                    Console.WriteLine("\nCould not check in - book is not checked out or doesn't exist.");
                 }
             }
             else
@@ -261,8 +341,11 @@ namespace Co_pilot_generation_training
             if (matches.Count > 0)
             {
                 Console.WriteLine($"Found {matches.Count} match(es):");
-                foreach (var (idx, t) in matches) Console.WriteLine($"{idx}. {t}");
-                Console.WriteLine("This book is available.");
+                foreach (var (idx, t, checkedOut) in matches)
+                {
+                    var status = checkedOut ? " [CHECKED OUT]" : " [AVAILABLE]";
+                    Console.WriteLine($"{idx}. {t}{status}");
+                }
             }
             else
             {
@@ -271,49 +354,68 @@ namespace Co_pilot_generation_training
             Pause();
         }
 
-        static void BorrowBook(Library library, List<string> borrowed)
+        static void BorrowBook(Library library)
         {
+            var checkedOutBooks = library.ListCheckedOutBooks();
             Console.WriteLine("\nYour borrowed books:");
-            if (borrowed.Count == 0)
+            if (checkedOutBooks.Count == 0)
             {
                 Console.WriteLine("(No books borrowed yet)");
             }
             else
             {
-                for (int i = 0; i < borrowed.Count; i++)
+                foreach (var (idx, title) in checkedOutBooks)
                 {
-                    Console.WriteLine($"{i + 1}. {borrowed[i]}");
+                    Console.WriteLine($"{idx}. {title}");
                 }
             }
-            Console.WriteLine($"\nYou can borrow {3 - borrowed.Count} more book(s).\n");
+            Console.WriteLine($"\nYou can borrow {3 - checkedOutBooks.Count} more book(s).\n");
 
-            if (borrowed.Count >= 3)
+            if (checkedOutBooks.Count >= 3)
             {
                 Console.WriteLine("You have reached the borrow limit (3 books). Return a book before borrowing more.");
                 Pause();
                 return;
             }
 
-            if (library.IsEmpty)
+            var availableBooks = library.ListAvailableBooks();
+            if (availableBooks.Count == 0)
             {
-                Console.WriteLine("There are no books to borrow.");
+                Console.WriteLine("There are no books available to borrow.");
                 Pause();
                 return;
             }
 
             Console.WriteLine("Available books to borrow:");
-            PrintBooks(library);
+            foreach (var (idx, title) in availableBooks)
+            {
+                Console.WriteLine($"{idx}. {title}");
+            }
 
-            Console.Write("Enter title or number to borrow: ");
+            Console.Write("\nEnter title or number to borrow: ");
             var arg = Console.ReadLine()?.Trim();
             if (string.IsNullOrEmpty(arg)) { Console.WriteLine("Invalid input."); Pause(); return; }
 
             if (int.TryParse(arg, out var n))
             {
-                var b = library.RemoveAt(n);
-                if (b == null) Console.WriteLine("No book at that number.");
-                else { borrowed.Add(b); Console.WriteLine($"You borrowed: {b}"); }
-                Console.WriteLine($"Borrowed count: {borrowed.Count}/3");
+                if (library.IsBookCheckedOut(n))
+                {
+                    Console.WriteLine("This book is already checked out.");
+                }
+                else if (library.CheckOut(n))
+                {
+                    var bookList = library.ListBooks();
+                    var book = bookList.FirstOrDefault(b => b.Index == n);
+                    if (book.Title != null)
+                    {
+                        Console.WriteLine($"You borrowed: {book.Title}");
+                        Console.WriteLine($"Borrowed count: {checkedOutBooks.Count + 1}/3");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No book at that number.");
+                }
                 Pause();
                 return;
             }
@@ -321,14 +423,25 @@ namespace Co_pilot_generation_training
             var found = library.Search(arg);
             if (found.Count > 0)
             {
-                var idx = found[0].Index;
-                var b2 = library.RemoveAt(idx);
-                if (b2 != null) { borrowed.Add(b2); Console.WriteLine($"You borrowed: {b2}"); }
-                else Console.WriteLine("Could not borrow the book.");
+                var (idx, title, isCheckedOut) = found[0];
+                if (isCheckedOut)
+                {
+                    Console.WriteLine("This book is already checked out.");
+                }
+                else if (library.CheckOut(idx))
+                {
+                    Console.WriteLine($"You borrowed: {title}");
+                    Console.WriteLine($"Borrowed count: {checkedOutBooks.Count + 1}/3");
+                }
+                else
+                {
+                    Console.WriteLine("Could not borrow the book.");
+                }
             }
-            else Console.WriteLine("Book title is not in the collection.");
-
-            Console.WriteLine($"Borrowed count: {borrowed.Count}/3");
+            else
+            {
+                Console.WriteLine("Book title is not in the collection.");
+            }
             Pause();
         }
 
@@ -339,7 +452,11 @@ namespace Co_pilot_generation_training
             else
             {
                 Console.WriteLine("Current books:");
-                foreach (var (i, t) in list) Console.WriteLine($"{i}. {t}");
+                foreach (var (i, t, checkedOut) in list)
+                {
+                    var status = checkedOut ? " [CHECKED OUT]" : "";
+                    Console.WriteLine($"{i}. {t}{status}");
+                }
             }
         }
 
