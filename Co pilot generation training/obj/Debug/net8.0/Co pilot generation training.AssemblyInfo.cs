@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Co pilot generation training")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e170eef434a40655b94d468a91aecdc78156e1bd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a84805d9d4cb02ca3dd0a079c70e6c5741e9fa23")]
 [assembly: System.Reflection.AssemblyProductAttribute("Co pilot generation training")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Co pilot generation training")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

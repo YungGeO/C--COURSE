@@ -1,157 +1,184 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Co_pilot_generation_training
 {
     class Program
     {
+        private sealed class Library
+        {
+            private readonly string?[] slots;
+            public Library(int capacity) => slots = new string?[capacity];
+            public bool IsEmpty => Array.TrueForAll(slots, s => string.IsNullOrEmpty(s));
+            public bool IsFull => Array.TrueForAll(slots, s => !string.IsNullOrEmpty(s));
+
+            public IReadOnlyList<(int Index, string Title)> ListBooks()
+            {
+                var list = new List<(int, string)>();
+                for (int i = 0; i < slots.Length; i++)
+                    if (!string.IsNullOrEmpty(slots[i]))
+                        list.Add((i + 1, slots[i]!));
+                return list;
+            }
+
+            public bool Add(string title)
+            {
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    if (string.IsNullOrEmpty(slots[i]))
+                    {
+                        slots[i] = title;
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            public string? RemoveAt(int indexOneBased)
+            {
+                int i = indexOneBased - 1;
+                if (i < 0 || i >= slots.Length) return null;
+                var old = slots[i];
+                if (string.IsNullOrEmpty(old)) return null;
+                slots[i] = null;
+                return old;
+            }
+
+            public int RemoveByTitle(string title)
+            {
+                int removed = 0;
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    if (!string.IsNullOrEmpty(slots[i]) && string.Equals(slots[i], title, StringComparison.OrdinalIgnoreCase))
+                    {
+                        slots[i] = null;
+                        removed++;
+                    }
+                }
+                return removed;
+            }
+
+            public IReadOnlyList<(int Index, string Title)> Search(string query)
+            {
+                var res = new List<(int, string)>();
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    if (!string.IsNullOrEmpty(slots[i]) && string.Equals(slots[i], query, StringComparison.OrdinalIgnoreCase))
+                        res.Add((i + 1, slots[i]!));
+                }
+                return res;
+            }
+        }
+
         static void Main(string[] args)
         {
-            var books = new string?[5]; // allow nulls for empty slots
+            var library = new Library(5);
 
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("=== Book Management System (optimized) ===\n");
+                Console.WriteLine("=== Book Management (optimized) ===\n");
 
-                DisplayBooks(books);
+                PrintBooks(library);
 
                 Console.WriteLine();
-                Console.WriteLine("Choose an action:");
-                Console.WriteLine("  1) Add    (or type 'add')");
-                Console.WriteLine("  2) Remove (or type 'remove')");
-                Console.WriteLine("  3) Display (or type 'display')");
-                Console.WriteLine("  4) Exit   (or type 'exit')");
-                Console.Write("Enter choice: ");
+                Console.WriteLine("Actions:");
+                Console.WriteLine(" 1) Add");
+                Console.WriteLine(" 2) Remove");
+                Console.WriteLine(" 3) Display");
+                Console.WriteLine(" 4) Search");
+                Console.WriteLine(" 5) Exit");
+                Console.Write("Enter choice (1-5 or word): ");
 
-                var choice = Console.ReadLine();
-                if (choice == null) break;
+                var choice = Console.ReadLine()?.Trim();
+                if (string.IsNullOrEmpty(choice)) { Console.WriteLine("Invalid input."); Pause(); continue; }
 
-                var cmd = choice.Trim().ToLowerInvariant();
+                var cmd = choice.ToLowerInvariant();
 
-                // map short/number inputs to commands
-                if (cmd == "1" || cmd == "add" || cmd == "a")
+                if (cmd == "1" || cmd == "add")
                 {
-                    if (!HasEmptySlot(books))
+                    if (library.IsFull) { Console.WriteLine("Library full — remove an item first."); Pause(); continue; }
+                    Console.Write("Enter title to add: ");
+                    var title = Console.ReadLine()?.Trim();
+                    if (string.IsNullOrEmpty(title)) { Console.WriteLine("Title cannot be empty."); Pause(); continue; }
+                    library.Add(title);
+                    Console.WriteLine("Added."); Pause();
+                }
+                else if (cmd == "2" || cmd == "remove")
+                {
+                    if (library.IsEmpty) { Console.WriteLine("Library empty — nothing to remove."); Pause(); continue; }
+                    Console.Write("Enter title or number to remove: ");
+                    var arg = Console.ReadLine()?.Trim();
+                    if (string.IsNullOrEmpty(arg)) { Console.WriteLine("Invalid input."); Pause(); continue; }
+                    if (int.TryParse(arg, out var n))
                     {
-                        Console.WriteLine("\nERROR: All slots are full. Remove a book before adding another.");
+                        var removed = library.RemoveAt(n);
+                        Console.WriteLine(removed == null ? "No book at that number." : $"Removed: {removed}");
                         Pause();
                         continue;
                     }
-
-                    Console.Write("\nEnter book title to add: ");
-                    var title = Console.ReadLine();
-                    if (string.IsNullOrWhiteSpace(title))
-                    {
-                        Console.WriteLine("ERROR: Title cannot be empty.");
-                        Pause();
-                        continue;
-                    }
-
-                    title = title.Trim();
-                    AddBook(books, title);
-                    Console.WriteLine("Book added successfully!");
+                    var count = library.RemoveByTitle(arg);
+                    Console.WriteLine(count > 0 ? $"Removed {count} item(s)." : "Book not found.");
                     Pause();
                 }
-                else if (cmd == "2" || cmd == "remove" || cmd == "r")
+                else if (cmd == "3" || cmd == "display")
                 {
-                    if (!HasAnyBook(books))
+                    PrintBooks(library); Pause();
+                }
+                else if (cmd == "4" || cmd == "search")
+                {
+                    // New search behavior requested:
+                    if (library.IsEmpty)
                     {
-                        Console.WriteLine("\nERROR: The library is empty. Nothing to remove.");
+                        Console.WriteLine("There are no books yet.");
                         Pause();
                         continue;
                     }
 
-                    Console.Write("\nEnter the title of the book to remove (or enter its number): ");
-                    var input = Console.ReadLine();
-                    if (string.IsNullOrWhiteSpace(input)) { Console.WriteLine("ERROR: Title cannot be empty."); Pause(); continue; }
+                    Console.Write("Enter book title to search: ");
+                    var q = Console.ReadLine()?.Trim();
+                    if (string.IsNullOrEmpty(q)) { Console.WriteLine("Invalid input."); Pause(); continue; }
 
-                    input = input.Trim();
-                    // try parse as index first
-                    if (int.TryParse(input, out var idx))
+                    var matches = library.Search(q);
+                    if (matches.Count > 0)
                     {
-                        if (idx >= 1 && idx <= books.Length && !string.IsNullOrEmpty(books[idx - 1]))
-                        {
-                            Console.WriteLine($"Removed: {books[idx - 1]}");
-                            books[idx - 1] = null;
-                        }
-                        else Console.WriteLine("No book at that number.");
-                        Pause();
-                        continue;
+                        Console.WriteLine($"Found {matches.Count} match(es):");
+                        foreach (var (idx, t) in matches) Console.WriteLine($"{idx}. {t}");
+                        Console.WriteLine("This book is available.");
                     }
-
-                    var removed = RemoveByTitle(books, input);
-                    Console.WriteLine(removed ? "Book removed successfully!" : "Book not found.");
+                    else
+                    {
+                        Console.WriteLine("Book title is not in the collection.");
+                    }
                     Pause();
                 }
-                else if (cmd == "3" || cmd == "display" || cmd == "d")
+                else if (cmd == "5" || cmd == "exit")
                 {
-                    Console.WriteLine();
-                    DisplayBooks(books);
-                    Pause();
-                }
-                else if (cmd == "4" || cmd == "exit" || cmd == "e")
-                {
-                    Console.WriteLine("\nGoodbye!");
-                    Pause();
+                    Console.WriteLine("Goodbye.");
                     return;
                 }
                 else
                 {
-                    Console.WriteLine("\nERROR: Invalid choice. Please enter 1-4 or a command word (add/remove/display/exit).");
-                    Pause();
+                    Console.WriteLine("Unknown command."); Pause();
                 }
             }
         }
 
-    static void DisplayBooks(string?[] books)
+        static void PrintBooks(Library lib)
         {
-            Console.WriteLine("Current Books:");
-            var any = false;
-            for (int i = 0; i < books.Length; i++)
+            var list = lib.ListBooks();
+            if (list.Count == 0) Console.WriteLine("(No books in the library)");
+            else
             {
-                if (!string.IsNullOrEmpty(books[i]))
-                {
-                    Console.WriteLine($"{i + 1}. {books[i]}");
-                    any = true;
-                }
+                Console.WriteLine("Current books:");
+                foreach (var (i, t) in list) Console.WriteLine($"{i}. {t}");
             }
-            if (!any) Console.WriteLine("(No books in the library)");
-        }
-
-        static bool HasEmptySlot(string?[] books) => Array.Exists(books, b => string.IsNullOrEmpty(b));
-
-        static bool HasAnyBook(string?[] books) => Array.Exists(books, b => !string.IsNullOrEmpty(b));
-
-        static void AddBook(string?[] books, string title)
-        {
-            for (int i = 0; i < books.Length; i++)
-            {
-                if (string.IsNullOrEmpty(books[i]))
-                {
-                    books[i] = title;
-                    return;
-                }
-            }
-        }
-
-        static bool RemoveByTitle(string?[] books, string title)
-        {
-            var removed = false;
-            for (int i = 0; i < books.Length; i++)
-            {
-                if (!string.IsNullOrEmpty(books[i]) && string.Equals(books[i], title, StringComparison.OrdinalIgnoreCase))
-                {
-                    books[i] = null;
-                    removed = true;
-                }
-            }
-            return removed;
         }
 
         static void Pause()
         {
             Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
     }
 }
