@@ -99,60 +99,19 @@ namespace Co_pilot_generation_training
 
                 if (cmd == "1" || cmd == "add")
                 {
-                    if (library.IsFull) { Console.WriteLine("Library full — remove an item first."); Pause(); continue; }
-                    Console.Write("Enter title to add: ");
-                    var title = Console.ReadLine()?.Trim();
-                    if (string.IsNullOrEmpty(title)) { Console.WriteLine("Title cannot be empty."); Pause(); continue; }
-                    library.Add(title);
-                    Console.WriteLine("Added."); Pause();
+                    AddBook(library);
                 }
                 else if (cmd == "2" || cmd == "remove")
                 {
-                    if (library.IsEmpty) { Console.WriteLine("Library empty — nothing to remove."); Pause(); continue; }
-                    Console.Write("Enter title or number to remove: ");
-                    var arg = Console.ReadLine()?.Trim();
-                    if (string.IsNullOrEmpty(arg)) { Console.WriteLine("Invalid input."); Pause(); continue; }
-                    if (int.TryParse(arg, out var n))
-                    {
-                        var removed = library.RemoveAt(n);
-                        Console.WriteLine(removed == null ? "No book at that number." : $"Removed: {removed}");
-                        Pause();
-                        continue;
-                    }
-                    var count = library.RemoveByTitle(arg);
-                    Console.WriteLine(count > 0 ? $"Removed {count} item(s)." : "Book not found.");
-                    Pause();
+                    RemoveBook(library);
                 }
                 else if (cmd == "3" || cmd == "display")
                 {
-                    PrintBooks(library); Pause();
+                    DisplayBooks(library);
                 }
                 else if (cmd == "4" || cmd == "search")
                 {
-                    // New search behavior requested:
-                    if (library.IsEmpty)
-                    {
-                        Console.WriteLine("There are no books yet.");
-                        Pause();
-                        continue;
-                    }
-
-                    Console.Write("Enter book title to search: ");
-                    var q = Console.ReadLine()?.Trim();
-                    if (string.IsNullOrEmpty(q)) { Console.WriteLine("Invalid input."); Pause(); continue; }
-
-                    var matches = library.Search(q);
-                    if (matches.Count > 0)
-                    {
-                        Console.WriteLine($"Found {matches.Count} match(es):");
-                        foreach (var (idx, t) in matches) Console.WriteLine($"{idx}. {t}");
-                        Console.WriteLine("This book is available.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Book title is not in the collection.");
-                    }
-                    Pause();
+                    SearchBook(library);
                 }
                 else if (cmd == "5" || cmd == "borrow")
                 {
@@ -168,6 +127,97 @@ namespace Co_pilot_generation_training
                     Console.WriteLine("Unknown command."); Pause();
                 }
             }
+        }
+
+        static void AddBook(Library library)
+        {
+            if (library.IsFull)
+            {
+                Console.WriteLine("Library full — remove an item first.");
+                Pause();
+                return;
+            }
+            Console.Write("Enter title to add: ");
+            var title = Console.ReadLine()?.Trim();
+            if (string.IsNullOrEmpty(title))
+            {
+                Console.WriteLine("Title cannot be empty.");
+                Pause();
+                return;
+            }
+            library.Add(title);
+            Console.WriteLine("Added.");
+            Pause();
+        }
+
+        static void RemoveBook(Library library)
+        {
+            if (library.IsEmpty)
+            {
+                Console.WriteLine("There is nothing to remove - the library is empty.");
+                Pause();
+                return;
+            }
+
+            Console.WriteLine("\nCurrent books available for removal:");
+            PrintBooks(library);
+            Console.WriteLine();
+            Console.Write("Enter title or number to remove: ");
+            var arg = Console.ReadLine()?.Trim();
+            if (string.IsNullOrEmpty(arg))
+            {
+                Console.WriteLine("Invalid input.");
+                Pause();
+                return;
+            }
+            if (int.TryParse(arg, out var n))
+            {
+                var removed = library.RemoveAt(n);
+                Console.WriteLine(removed == null ? "No book at that number." : $"Removed: {removed}");
+                Pause();
+                return;
+            }
+            var count = library.RemoveByTitle(arg);
+            Console.WriteLine(count > 0 ? $"Removed {count} item(s)." : "Book not found.");
+            Pause();
+        }
+
+        static void DisplayBooks(Library library)
+        {
+            PrintBooks(library);
+            Pause();
+        }
+
+        static void SearchBook(Library library)
+        {
+            if (library.IsEmpty)
+            {
+                Console.WriteLine("There are no books yet.");
+                Pause();
+                return;
+            }
+
+            Console.Write("Enter book title to search: ");
+            var q = Console.ReadLine()?.Trim();
+            if (string.IsNullOrEmpty(q))
+            {
+                Console.WriteLine("Invalid input.");
+                Pause();
+                return;
+            }
+
+            var matches = library.Search(q);
+            if (matches.Count > 0)
+            {
+                Console.WriteLine($"Found {matches.Count} match(es):");
+                foreach (var (idx, t) in matches) Console.WriteLine($"{idx}. {t}");
+                Console.WriteLine("This book is available.");
+            }
+            else
+            {
+                Console.WriteLine("Book title is not in the collection.");
+            }
+            Pause();
         }
 
         static void BorrowBook(Library library, List<string> borrowed)
